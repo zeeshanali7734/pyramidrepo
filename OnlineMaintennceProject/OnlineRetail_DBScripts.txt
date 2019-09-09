@@ -1,0 +1,88 @@
+create sequence Category_Seq start with 1
+ increment by 1
+ minvalue 1
+ maxvalue 10000;
+
+create table Category
+(
+   cid number(10) not null primary key,
+   cname varchar2(40) not null,
+   description varchar2(200) not null,
+   status char(1) default 'y'
+);
+
+insert into category(cid,cname,description) values(category_seq.nextval,'Clothes','Branded Clothes');
+insert into category(cid,cname,description) values(category_seq.nextval,'Watches','Branded Watches');
+insert into category(cid,cname,description) values(category_seq.nextval,'Shoes','Shoes Lady,Gents,Chilrens');
+insert into category(cid,cname,description) values(category_seq.nextval,'Jewellery','Gold and Silver');
+
+create sequence Sub_Category_Seq start with 1
+ increment by 1
+ minvalue 1
+ maxvalue 10000;
+
+create table SubCategory
+(
+   sid number primary key not null,
+   subName varchar2(40) not null,
+   subDescription varchar2(200) not null,
+   cid number not null references category(cid),
+   status char(1) default 'y'
+);
+
+insert into subcategory(sid,subName,subDescription,cid) values(Sub_Category_Seq.nextval,'T-Shirt','Men T-Shirt',1);
+insert into subcategory(sid,subName,subDescription,cid) values(Sub_Category_Seq.nextval,'Fashion Watch','Fashion Ladies Watch',2);
+insert into subcategory(sid,subName,subDescription,cid) values(Sub_Category_Seq.nextval,'Shoe','Men Shoes',3);
+
+create sequence Product_Seq  start with 1
+ increment by 1
+ minvalue 1
+ maxvalue 10000;
+
+create table product
+(
+   pid number primary key not null,
+   productName varchar2(40) not null,
+   productDescription varchar2(200) not null,
+   cost decimal(10,2) not null,
+   discount number,
+   sid number not null references subCategory(sid),
+   image varchar2(200) not null,
+   status char(1) default 'y'
+);
+
+insert into product(pid,productname,productDescription,cost,discount,sid,image) values(Product_Seq.nextval,'Half T-Shirt','Colour T-Shirt',1000,10,1,'shirts1.jpg');
+insert into product(pid,productname,productDescription,cost,discount,sid,image) values(Product_Seq.nextval,'Gold Jewellery','Colour T-Shirt',2000,30,2,'jewellery.jpg');
+
+create sequence Comment_Seq  start with 1
+ increment by 1
+ minvalue 1
+ maxvalue 10000;
+
+create table comments
+(
+   id number primary key not null,
+   CategoryName varchar2(30) not null,
+   comments varchar2(200) not null,
+   commentdate date not null,
+   rating number not null,
+   status char(1) default 'y'
+);
+
+create sequence Registration_Seq;
+
+create table registration
+(
+   id number primary key not null,
+   username varchar2(50) not null,
+   password varchar2(50) not null,
+   phno varchar2(10) not null,
+   gender char(1) not null,
+   city varchar2(50) not null,
+   country varchar2(50) not null,
+   regdate date,
+   status char(1) default 'y'
+);
+
+insert into registration(id,username,password,phno,gender,city,country,regdate) values(Registration_Seq.nextval,'janakiram','janakiram','999999999','M','Bengaluru','India','10-DEC-2015');
+insert into registration(id,username,password,phno,gender,city,country,regdate) values(Registration_Seq.nextval,'ram','ram','999999999','M','Bengaluru','India','05-MAY-2012');
